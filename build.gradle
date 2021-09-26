@@ -1,0 +1,47 @@
+plugins {
+	id 'org.springframework.boot' version '2.5.5'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id 'java'
+}
+
+group = 'com.seek'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter'
+	implementation 'org.apache.commons:commons-lang3:3.12.0'
+	implementation 'commons-io:commons-io:2.11.0'
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+
+
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.assertj:assertj-core:3.21.0'
+}
+
+test {
+	useJUnitPlatform()
+}
+
+task copyJarToBin {
+	doLast {
+		copy {
+			from 'build/libs/traffic-data-app-0.0.1-SNAPSHOT.jar'
+			into "../traffic-data-app"
+		}
+
+	}
+}
+
+build.finalizedBy(copyJarToBin)
